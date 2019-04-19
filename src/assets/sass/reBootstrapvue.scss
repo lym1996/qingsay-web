@@ -1,0 +1,56 @@
+// 聚焦
+.form-control:focus,
+button, button:focus,
+.btn.focus, .btn:focus,
+a, a:link, a:visited, a:hover, a:active {
+  outline: none;
+  box-shadow: none;
+}
+.form-control:focus {
+  border-color: $theme-color;
+}
+// 单选
+.custom-radio {
+  .custom-control-label::before {
+    background-color: #fff;
+    border: 1px solid $color-border;
+    width: 20px;
+    height: 20px;
+  }
+  .custom-control-input:focus~.custom-control-label::before {
+    box-shadow: none;
+  }
+  .custom-control-input:active~.custom-control-label::before {
+    background-color: #fff;
+  }
+  .custom-control-input:checked~.custom-control-label::before {
+    background-color: #fff;
+  }
+  .custom-control-input:checked~.custom-control-label::after {
+    width: 20px;
+    height: 20px;
+    background-size: 100% 100%;
+  }
+}
+
+// 多选
+.custom-checkbox  {
+  .custom-control-label::before {
+    background-color: #fff;
+    border: 1px solid $color-border;
+  }
+  .custom-control-input:focus~.custom-control-label::before {
+    box-shadow: none;
+  }
+  .custom-control-input:active~.custom-control-label::before {
+    background-color: #fff;
+  }
+  .custom-control-input:checked~.custom-control-label::before {
+    background-color: $theme-color;
+  }
+}
+
+// 弹窗
+.modal-content {
+  border: none;
+}

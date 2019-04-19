@@ -22,6 +22,33 @@ const codeerror = d => {
     return d
 }
 
+const headersParam = () => {
+    var param = {}
+      param = {}
+    return param
+  }
+
+const commonPostBody = (url, param, type) => {
+    return new Promise((resolve, reject) => {
+      axios.post(baseURL + url, param, {
+        headers: headersParam()
+      }).then(res => {
+        if (res.data.retCode === 0) {
+          resolve(res)
+        } else {
+          // Message.error(res.data.retInfo)
+          // if (type === 1) {
+          //   resolve()
+          // }
+                  resolve(res)
+        }
+      }).catch(
+        // errorText
+        )
+    })
+  }
+
+
 const post = (_url, obj) => axios.post(_url, obj, objBase).then(codeerror).catch(errorFn)//query参数
 const post2 = (_url, body) => axios.post(_url, body, modelBase).then(codeerror).catch(errorFn)//body体
 const get = (obj) => axios.get(obj, objBase).then(codeerror).catch(errorFn)
@@ -31,16 +58,94 @@ const postfile =  (_url, obj) => axios.post(_url, obj,{ baseURL: baseURL,headers
 const registrate = (param) => post2('/user/registration',param)
 const huoqu = (param) => post('/article/folder/save',param)
 const list = (token) => get('/article/listArticleFolder?token='+token)
-//获取本周排班信息
-const getWeekSchdule = (token,departmentId,type) => get('/scheduling/getWeak?token='+token+'&sectionId='+departmentId+'&type='+type)
-//获取具体日期上下午排班
-const getDaySchdule = (token,departmentId,timeType,date) => get('/scheduling/getByDate?token='+token+'&sectionId='+departmentId+'&timeType='+timeType+'&date='+date)
-//更新排班
-const updateSchdule = (param) => post('/scheduling/updateScheduling',param)
+//上传文章图片
+const uploadArticlePic = (p) => commonPostBody('/img/uploadArticlePic', p)
+//上传主题头像
+const uploadTopicPic = (p) => commonPostBody('/img/uploadTopicProfilePic',p)
+//获取图形验证码
+const getImgUrl = (param) => post('/user/getPictureCode',param)
+//验证图形验证码
+const verifyPictureCode = (param) => post('/user/verifyPictureCode',param)
+//获取短信验证码
+const getMsgCode = (param) => post('/user/getMessageCode',param)
+//注册
+const registration = (param) => post('/user/registration',param)
+//登录
+const login = (param) => post('/user/login',param)
+//退出
+const logout = (param) => post('/user/logout',param)
+//忘记密码
+const reSetPassword = (param) => post('/user/reinputPasswoed',param)
+//获取用户信息
+const getUserInfo = (param) => post('/user/getUserInfo',param)
+//给未登录的推荐一些主题
+const getNologinTopic = () => get('/recommend/recommendTopic')
+//登录后关注的主题
+const getloginTopic = (token) => get('/concern/listConcernTopic?token='+token)
+//获取精彩推荐
+const getHotArticle = (token) => get('/recommend/todayHotValueRecommend?token='+token)
+//获取最新推荐
+const getTodayArticle = (token) => get('/recommend/todayUpdateRecommend?token='+token)
+//获取热门关键词
+const getKeyWord = () => get('/search/getHotKeyWord')
+//获取日排行
+const getDailyRank = () => get('/rank/articleDailyRank')
+//获取周排行
+const getWeekRank = () => get('/rank/articleWeeklyRank')
+//获取月排行
+const getMonthRank = () => get('/rank/articleMonthlyRank')
+//获取消息数量
+const getMsgCount = (token) => get('/msg/newMsgCount?token='+token)
+//获取动态
+const dynamicArticle = (type,pageNum,pageSize,token) => get('/concern/listConcernUserDynamic?type='+type+'&pageNum='+pageNum+'&pageSize='+pageSize+'&token='+token)
+//根据名字获取主题信息
+const getTopicInfo = (topicName,token) => get('/topic/getTopicByTopicName?topicName='+topicName+'&token='+token)
+//根据Id获取主题信息
+const getTopicInfoById = (topicId,token) => get('/topic/getTopicByTopicId?topicId='+topicId+'&token='+token)
+//获取主题文章
+const gettopicArticle = (pageNum,pageSize,topicId,type) => get('/topic/getArticle?pageNum='+pageNum+'&pageSize='+pageSize+'&topicId='+topicId+'&type='+type)
+//获取所有文集
+const getFolderList = (token) => get('/article/listArticleFolder?token='+token)
+//写文章
+const write = (param) => post2('/article/write',param)
+//添加主题
+const addTopic = (param) => post('/topic/add',param)
+//获取关注主题
+const getConcernTopic = (pageNum,pageSize,token) => get('/concern/listConcernTopic?pageNum='+pageNum+'&pageSize='+pageSize+'&token='+token)
+//关注主题或者取消关注
+const concernTopic = (param) => post('/concern/topic',param)
+//获取文章信息
+const getArticleInfo = (articleId) => get('/article/read/'+articleId)
 //暴露接口
 export default {
     baseURL,
-    getWeekSchdule,
-    getDaySchdule,
-    updateSchdule
+    uploadArticlePic,
+    uploadTopicPic,
+    getImgUrl,
+    getMsgCode,
+    registration,
+    reSetPassword,
+    login,
+    logout,
+    verifyPictureCode,
+    getUserInfo,
+    getHotArticle,
+    getTodayArticle,
+    getKeyWord,
+    getDailyRank,
+    getWeekRank,
+    getMonthRank,
+    getNologinTopic,
+    getloginTopic,
+    getMsgCount,
+    dynamicArticle,
+    getTopicInfo,
+    gettopicArticle,
+    getFolderList,
+    write,
+    addTopic,
+    getConcernTopic,
+    concernTopic,
+    getArticleInfo,
+    getTopicInfoById
 }

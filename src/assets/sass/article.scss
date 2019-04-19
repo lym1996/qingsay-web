@@ -1,0 +1,23 @@
+    .headC{
+        background-color: #F2F4F7;
+    }
+    .mes{
+        color:#AAAAAA;
+    }
+    .desc{
+        font-size: 15px;
+        color:#4c4c4c;
+    }
+.artContent{
+    .el-button{
+        padding:6px 8px;
+    }
+}
+.Acontent{
+    overflow: hidden;
+    white-space:normal;
+    word-break: break-all;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-box-orient: vertical;
+}

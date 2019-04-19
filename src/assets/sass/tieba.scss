@@ -1,0 +1,49 @@
+.tieba{
+    .search{
+        .el-input{
+            margin-left:25%;
+        }
+        .el-input-group{
+            width:500px;
+        }
+    }
+  .topicImg{
+    position: absolute;
+    z-index: 9;
+    top: auto;
+    bottom: -3px;
+    margin: 20px;
+  }
+  .head{
+      .el-button{
+          padding: 5px 10px;
+      }
+  }
+  .Ttitle{
+      font-size:30px;
+      font-weight: bold;
+      margin-right: 20px;
+  }
+  .mes{
+      color:#AAAAAA;
+  }
+  .desc{
+      font-size: 16px;
+      color:#4c4c4c;
+  }
+  .tbtopic{
+    display: inline-block;
+    margin-right:10px;
+    margin-bottom: 5px;
+    overflow: hidden;
+    font-size: 12px;
+    color: #409EFF;
+    background-color: rgba(64,158,255,.1);
+    border-radius: 4px;
+    padding:0px 16px 16px 16px;
+    height: 32px;
+    line-height: 30px;
+    border: 1px solid rgba(64,158,255,.2);
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,449 @@
+// 2018.5.30
+body {
+  font-size: $fontsize0;
+}
+button,
+input {
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+}
+
+// 本项目色值
+$the-color-theme: #40c7c3;
+$the-color-darkgreen: #1baca7;
+$thecolors:
+(theme, $the-color-theme),
+(darkgreen, $the-color-darkgreen),
+(c5c5c5, #c5c5c5);
+@each $name,
+$color in $thecolors {
+  .the-color-#{$name} {
+    color: $color;
+  }
+  .the-bgcolor-#{$name} {
+    background-color: $color;
+  }
+}
+
+// 图标
+$theicons:
+(camera, 30, 26),
+(closeAlert, 31, 31),
+(close-red, 16, 16),
+(success, 40, 40),
+(docGoodat, 10, 13),
+(loginuser, 11, 12),
+(password, 14, 14),
+(uparrow, 8, 5),
+(cfj, 18, 22),
+(checkbox-checked, 16, 16);
+@each $icon, $width, $height in $theicons {
+  .theicon-#{$icon} {
+    display: inline-block;
+    width: #{$width}px;
+    height: #{$height}px;
+    background-size: 100% 100%;
+  }
+}
+
+// 行数限制
+@each $i in 2 {
+    .limited-#{$i} {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: $i;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+// 公共样式
+.magintop-1 {
+    margin-top: -1px;
+}
+
+.box-shadow {
+    box-shadow: 0 2px 5px 0 rgba(3,24,58,0.1);
+}
+
+.borderleft5-theme {
+    border-left: 5px solid $theme-color;
+}
+
+.theBtn {
+    height: 40px;
+    line-height: 40px;
+    border-radius: 4px;
+    background-color: $the-color-theme;
+    color: #fff;
+    cursor: pointer;
+}
+
+.commonSureBtn {
+    background-color: $theme-color;
+    color: #fff;
+    &.isplain {
+        background-color: #fff;
+        border-color: $theme-color;
+        color: $theme-color;
+    }
+    &.addPerson:hover {
+      color: #fff;
+    }
+    &.dark {
+      background-color: #c5c5c5;
+    }
+}
+.btn-secondary {
+  @extend .commonSureBtn.dark;
+  border: none;
+  &:hover {
+    background-color: #c5c5c5;
+  }
+}
+.btn-primary {
+  @extend .commonSureBtn;
+  border: none;
+  &:hover {
+    background-color: $theme-color;
+  }
+}
+
+.commonCancelBtn {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #ccc;
+}
+
+.commonTextBtn {
+  background: none;
+  border: none;
+  color: $theme-color;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.page-link {
+    color: $theme-color;
+    &:hover {
+        color: $theme-color;
+    }
+}
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show>.btn-primary.dropdown-toggle,
+.page-item.active .page-link {
+    background-color: $theme-color;
+    border-color: $theme-color;
+    height: 100%;
+}
+.page-link:focus,
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.show>.btn-primary.dropdown-toggle:focus {
+    box-shadow: none;
+}
+
+.chooseOption {
+    margin: 0 9px;
+    display: inline-block;
+    padding: 0 10px;
+    border-radius: 14px;
+    text-align: center;
+    cursor: pointer;
+    @extend .lineEllipsis;
+    &.curOption {
+        color: white;
+        background: #40c7c3;
+    }
+}
+
+.mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6)
+}
+
+// 覆盖饿了么样式
+.el-form-item {
+    .el-form-item__label {
+        color: #666;
+    }
+    .el-form-item__content {
+        color: #333;
+        word-break: break-all;
+    }
+}
+.EN {
+    .el-form-item {
+        position: relative;
+        .el-form-item__content {
+            position: absolute;
+            bottom: 0;
+        }
+        &.static {
+            .el-form-item__content {
+                position: static;
+            }
+        }
+    }
+
+}
+
+// 主页
+.home {
+    .chooseOption {
+        margin-bottom: 0;
+        max-width: 88px;
+    }
+    .typeText {
+        margin-left: 44px;
+        font-size: 21px;
+        font-weight: bold;
+        color: $theme-color;
+        &.dark {
+            color: #999;
+        }
+    }
+    .carousel-indicators {
+        bottom: 23px;
+        li {
+            margin: 0 9px;
+            width: 16px;
+            height: 16px;
+            background-color: #ddd;
+            &.active {
+                background-color: $the-color-darkgreen;
+            }
+        }
+    }
+}
+
+// 组件页面
+.dovHoverlist {
+    padding: 0 25px;
+    .doclist {
+        margin: 10px;
+        width: 270px;
+        height: 320px;
+    }
+}
+
+.carouselImg {
+    img {
+        height: 400px;
+    }
+}
+
+.crossLine {
+    margin: 0 15px;
+    width: 45px;
+    border-bottom: 1px solid #c5c5c5;
+}
+
+.crossLineno {
+    margin: 0 35px;
+    width: 50px;
+    border-bottom: 1px solid #c5c5c5;
+}
+
+.switchfoldBtn:hover {
+    text-decoration: underline !important;
+}
+
+.searchFold {
+    top: 54px;
+    right: 25px;
+    position: absolute;
+    padding: 2px 9px;
+    color: #666;
+    border-radius: 3px;
+    border: 1px solid $color-border;
+    font-size: 12px;
+    background-color: #fff;
+    cursor: pointer;
+    .theicon-uparrow {
+        transform: translateY(-2px);
+        &.rotate180 {
+            transform: rotate(180deg) translate(0,2px);
+        }
+    }
+}
+
+#qrcode {
+  img {
+      width: 160px;
+      height: 160px;
+  }
+  &.payQrcode {
+    img,
+    canvas {
+      margin: 0 auto;
+      width: 230px;
+      height: 230px;
+    }
+  }
+}
+
+.helpLi {
+    float: left;
+    width: 50%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.navLink {
+    padding-bottom: 10px;
+    color: #fff;
+    &:visited {
+       border-bottom: 2px solid white;
+        color: #fff; 
+    }
+    &.active,
+    &:hover {
+        border-bottom: 2px solid white;
+        color: #fff;
+    }
+    
+}
+
+// 2018.8.9 登录、注册、忘记密码
+.modalWrap {
+    position: relative;
+    padding: 0 40px 40px;
+    .el-icon-close {
+        position: absolute;
+        right: 10px;
+        top: -25px;
+        font-size: 22px;
+        cursor: pointer;
+        &:hover {
+            color: $the-color-theme;
+        }
+    }
+    .tabNav {
+        border-bottom: 1px solid #D8D8D8;
+        .tabMenu {
+            margin: 0 10px -1px;
+            padding: 0 3px 15px;
+            display: inline-block;
+            font-size: 16px;
+            color: #333333;
+            line-height: 21px;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            &.cur {
+                border-bottom-color: $the-color-theme;
+            }
+        }
+    }
+    .infoForm {
+        .formItem {
+            position: relative;
+            .formInput {
+                width: 100%;
+                padding-left: 30px;
+                height: 40px;
+                line-height: 38px;
+                border: 1px solid #EAEAEA;
+                border-radius: 4px;
+            }
+            .codeInput {
+                width: 177px;
+                padding: 0 13px;
+                height: 40px;
+                line-height: 38px;
+                border: 1px solid #EAEAEA;
+                border-radius: 4px;
+            }
+            .codeImg {
+                width: 115px;
+                height: 38px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            .codeBtn {
+                width: 115px;
+                height: 40px;
+                background-color: #C3C3C3;
+                font-size: 12px;
+                color: #fff;
+                cursor: pointer;
+                &.cur {
+                    background-color: #FAAD14;
+                }
+            }
+            .imgBtn {
+                margin-left:10px;
+                width: 120px;
+                height: 40px;
+                background-color: #FAAD14;
+                font-size: 12px;
+                color: #fff;
+                cursor: pointer;
+            }
+        }
+    }
+    .loginBtn {
+        @extend .theBtn;
+        min-width: 140px;
+    }
+    .underline {
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    .agreeCheckbox {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 1px solid #cdcdcd;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    .theicon-checkbox-checked {
+        cursor: pointer;
+    }
+}
+
+// 个人中心
+.personCenterTitle {
+    padding: 15px 0 10px;
+    .title {
+        font-size: 18px;
+        font-weight: bold;
+        color: $the-color-theme;
+    }
+}
+.changePwd {
+    .formLabel {
+        width: 80px;
+        text-align: right;
+        font-size: 16px;
+        color: #333;
+    }
+    .required {
+        color: #dd625c;
+    }
+    .formItem {
+        .formSpan {
+            margin-left: 35px;
+            color: #666;
+        }
+        .formInput {
+            margin-left: 36px;
+            border: 1px solid $color-border;
+            width: 281px;
+            height: 32px;
+            padding: 0 13px;
+            border-radius: 2px;
+        }
+    }
+}

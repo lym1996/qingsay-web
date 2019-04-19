@@ -1,0 +1,52 @@
+.nav{
+    z-index: 1000;
+    position: fixed;
+    top:0;
+    background-color: hsla(0,0%,100%,.4);
+    box-shadow: 0 1px 2px rgba(0,0,0,.1);
+    .navlist{
+        font-size: 18px;
+        font-weight: 500;
+        padding-left: 7.5px;
+        padding-right: 7.5px;
+        &:hover{
+            border-bottom: 2px solid black;
+        }
+    }
+    .navright{
+        padding: 12px 15px 15px 15px;
+        font-size: 14px;
+        cursor: pointer;
+        &:hover{
+            background-color: hsla(0,0%,100%,.5)
+        }
+
+    }
+    .userInfo{
+        .message{
+            padding:5px 0px;
+            &:hover{
+                color:#00a1d6;
+                background-color: #e5e9ef;
+            }
+        }
+        .loginBtn{
+            margin-top: -8px;
+        }
+    }
+    .choosePerson {
+        .modal-header {
+            display: none;
+        }
+        .modal-footer {
+            display: none;
+        }
+        .modal-body {
+            padding: 0;
+        }
+        .modal-dialog {
+            max-width: 380px;
+        }
+    }
+    
+}

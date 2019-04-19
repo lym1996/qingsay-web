@@ -15,12 +15,18 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.0.0-rc.18",
     "element-ui": "^2.7.0",
+    "marked": "^0.6.2",
+    "mavon-editor": "^2.7.3",
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
     "tesla-ui": "^1.1.10",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-meditor": "^0.9.3",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

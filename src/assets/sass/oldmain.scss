@@ -1,0 +1,257 @@
+// 重写global.scss
+$i: 300;
+@while $i>30 {
+  @each $dir in $dirlist {
+      .margin#{$dir}#{$i} {
+          margin-#{$dir}: #{$i}px;
+      }
+      .padding#{$dir}#{$i} {
+          padding-#{$dir}: #{$i}px;
+      }
+  }
+  $i: $i - 5;
+}
+
+$i: 60;
+@while $i>10 {
+    .fontsize#{$i} {
+        font-size: #{$i}px;
+    }
+    $i: $i - 2;
+}
+
+$i: 50;
+@while $i>10 {
+    .lineheight#{$i} {
+        line-height: #{$i}px;
+    }
+    $i: $i - 5;
+}
+
+@each $dir in $dirlist {
+  .border#{$dir} {
+      border-#{$dir}: 1px solid $color-border;
+  }
+}
+@each $dir in $dirlist {
+  .border#{$dir}-dotted {
+      border-#{$dir}: 1px dotted $color-border;
+  }
+}
+@each $dir in $dirlist {
+  .border#{$dir}-dashed {
+      border-#{$dir}: 1px dashed $color-border;
+  }
+}
+
+// 色值
+$theme-color: #40c7c3;
+// 主题色背景
+.theme-bgcolor-40c7c3 {
+  background: #40c7c3 !important;
+}
+
+//主题字体
+.theme-color-40c7c3 {
+    color: #40c7c3 !important;
+}
+
+//主题色边框
+.border-theme {
+    border: 1px solid #40c7c3
+}
+
+.theme-bgcolor-069e99 {
+    background: #069e99;
+}
+
+.theme-bgcolor-50bbb7 {
+    background: #50bbb7;
+}
+
+.theme-bgcolor-6ab4c6 {
+    background: #6ab4c6;
+}
+
+.theme-color-069e99 {
+    color: #069e99;
+}
+
+.theme-bgcolor-e8fcfc {
+    background: #e8fcfc;
+}
+
+$colors:
+(f4f4f4, #f4f4f4),
+(fe9e20, #fe9e20),
+(f5f5f5, #f5f5f5),
+(fbfbfb, #fbfbfb),
+(c5c5c5, #c5c5c5),
+(8d9494, #8d9494),
+(bcbcbc, #bcbcbc),
+(676767, #676767),
+(a1a1a1, #a1a1a1),
+(3d3d3d, #3d3d3d),
+(cacaca, #cacaca),
+(747474, #747474),
+(B2B2B2, #B2B2B2),
+(4cb8b3, #4cb8b3),
+(959595, #959595),
+(3b94e3, #3b94e3),
+(d4d4d4, #d4d4d4),
+(ff7114, #ff7114),
+(fe9e20, #fe9e20),
+(4a90e2, #4a90e2),
+(ffab30, #ffab30),
+(fafafa, #fafafa),
+(5dcd47, #5dcd47),
+(969ca2, #969ca2),
+(f1f1f1, #f1f1f1),
+(ccc, #ccc),
+(red, red);
+@each $name, $color in $colors {
+  .color-#{$name} {
+    color: $color;
+  }
+  .bgcolor-#{$name} {
+    background-color: $color;
+  }
+}
+
+@each $i in 5, 20, 25, 60, 70, 75, 80, 85, 90, 100, 110, 115, 120, 130, 138, 140, 150, 160, 165, 175, 180, 190, 195,
+200, 230, 240, 260, 265, 270, 275, 280, 300, 320, 330, 360, 400 ,570, 575, 620, 635, 710, 750, 760, 800, 815, 900, 950, 990,
+1010, 1150, 1210 {
+  .width#{$i} {
+    width: #{$i}px;
+  }
+}
+
+@each $i in 20, 25, 26, 30, 40, 45, 50, 60, 65, 75, 80, 35, 40, 70, 95, 120, 130, 150, 190, 200, 220, 230, 390, 400 {
+    .height#{$i} {
+        height: #{$i}px;
+    }
+}
+
+@each $i in 100, 110, 140 {
+  .minwidth#{$i} {
+    min-width: #{$i}px;
+  }
+}
+
+.widthauto {
+    width: auto!important;
+}
+
+.margintop-150 {
+    margin-top: -150px;
+}
+
+.margintop-5 {
+  margin-top: -5px;
+}
+
+.margintop0 {
+  margin-top: 0!important;
+}
+
+.marginleft0 {
+  margin-left: 0!important;
+}
+
+.marginleft350 {
+    margin-left: 350px;
+}
+
+.textunderline {
+    text-decoration: underline
+}
+
+.border-color {
+    border: 1px solid $color-border !important;
+}
+
+.border-b8b8b8 {
+    border: 1px solid #b8b8b8 !important;
+}
+
+.borderright2 {
+    border-right: 2px solid #cccccc;
+}
+
+.borderColorNone {
+    border-color: none!important;
+}
+
+.borderdashedbottom {
+  border-bottom: 1px dashed $color-border;
+}
+
+.borderright-ccc {
+  border-right: 1px solid #ccc;
+}
+
+.border-eaeaea {
+  border: 1px solid #eaeaea;
+}
+
+.bordertopnone {
+    border-top: none;
+}
+
+.dots {
+    display: inline-block;
+    width: 60px;
+    border-radius: 10px;
+    height: 24px;
+    text-align: center;
+    line-height: 24px;
+}
+
+$i: 60;
+@while $i>-1 {
+    .dot#{$i} {
+        display: inline-block;
+        width: #{$i}px;
+        border-radius: #{$i/2}px;
+        height: #{$i}px;
+        text-align: center;
+        line-height: #{$i}px;
+    }
+    $i: $i - 5;
+}
+
+
+.vartivalmiddle {
+  vertical-align: middle;
+}
+
+.verticaltop {
+  vertical-align: top;
+}
+
+.verticalbottom {
+  vertical-align: text-bottom;
+}
+
+.overflowYauto {
+  overflow-y: auto;
+}
+
+.lineEllipsis2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.holdercolor::-webkit-input-placeholder{
+    color:#999;
+}
+.holdercolor:-moz-placeholder{
+    color:#999;
+}
+.holdercolor::-moz-placeholder{
+    color:#999;
+}
+.holdercolor:-ms-input-placeholder{
+    color:#999;
+}
