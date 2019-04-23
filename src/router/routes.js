@@ -19,6 +19,11 @@ const routes = [{
         component: lazyload('articleContent'),
         meta: { title:'文章内容'}
     },{
+        path: 'searchPage',
+        name: 'searchPage',
+        component: lazyload('searchPage'),
+        meta: { title:'搜索页'}
+    },{
         path: '404',
         name: '404',
         component: lazyload('404'),

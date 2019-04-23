@@ -1,6 +1,6 @@
 <template>
     <div class="article marginbottom20">
-        <div class="" v-for="(item,index) in article" :key="index" class="marginbottom10">
+        <div v-for="(item,index) in article" :key="index" class="marginbottom10">
             <div v-if="!!item.firstContentPic" :class="['paddingbottom20','paddingtop10', {'listbottom':index != 9}]">
               <img :src="item.firstContentPic" alt="" width="100" height="100" class="floatLeft marginleft20" style="vertical-align: middle">
               <div class="floatLeft marginleft20" style="width:580px;">

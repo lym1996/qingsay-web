@@ -39,19 +39,24 @@
                         placement="bottom"
                         width="400"
                         trigger="hover">
-                        <div class="scroll" style="height:200px;">
-                          <el-scrollbar  :native="false" style="height:100%;">
-                            <div v-for="(item,index) in loveMes" :key="index" class="paddingtop10 paddingbottom10 paddingleft10 clear dongtai">
-                                <img :src="item.profilePic" alt="" width="40" class="floatLeft">
-                                <div class="floatLeft marginleft10">
-                                    <div><i class="el-icon-edit-outline"></i><span class="marginleft5 marginright30 fontsize2 cursorPointer">{{item.nickName}}</span><span class="color-999">投稿了</span></div>
-                                    <div><span class="titleS">{{item.title}}</span></div>
+                        <div v-if="loveMes.length != 0">
+                            <div class="scroll" style="height:200px;">
+                              <el-scrollbar  :native="false" style="height:100%;">
+                                <div v-for="(item,index) in loveMes" :key="index" class="paddingtop10 paddingbottom10 paddingleft10 clear dongtai">
+                                    <img :src="item.profilePic" alt="" width="40" class="floatLeft">
+                                    <div class="floatLeft marginleft10">
+                                        <div><i class="el-icon-edit-outline"></i><span class="marginleft5 marginright30 fontsize2 cursorPointer">{{item.nickName}}</span><span class="color-999">投稿了</span></div>
+                                        <div><span class="titleS">{{item.title}}</span></div>
+                                    </div>
+                                    <img class="floatRight marginright20" v-if="dynamicArticleTime < item.createTime" src="../assets/common/img/new.png" width="40" alt="">
                                 </div>
-                                <img class="floatRight marginright20" v-if="dynamicArticleTime < item.createTime" src="../assets/common/img/new.png" width="40" alt="">
+                              </el-scrollbar>
                             </div>
-                          </el-scrollbar>
+                            <el-button type="primary" style="padding:12px 159px;">查看全部</el-button>
                         </div>
-                        <el-button type="primary" style="padding:12px 159px;">查看全部</el-button>
+                        <div v-if="loveMes.length == 0" class="textAlignCenter fontsize4">
+                            <span>暂无动态</span>
+                        </div>
                         <span class="navright" style="font-size:14px;" slot="reference">动态</span>
                     </el-popover>
                     <el-popover
@@ -60,7 +65,7 @@
                         trigger="hover">
                             <div class="textAlginCenter">
                                 <ul style="list-style:disc;">
-                                    <li class="dongtai paddingbottom10 paddingtop10 paddingleft10 paddingright10 fontsize2 cursorPointer" v-for="(item,index) in collectList" :key="index">{{item.title}}</li>
+                                    <li class="textAlginCenter dongtai paddingbottom10 paddingtop10 paddingleft10 paddingright10 fontsize2 cursorPointer" v-for="(item,index) in collectList" :key="index">{{item.articleTitle}}</li>
                                 </ul>
                             </div>
                         <span class="navright" style="font-size:14px;" slot="reference">收藏</span>
@@ -99,61 +104,29 @@ export default {
             pageSize:10,
             pages:1,
             type:0,
-            loveMes:[{
-                profilePic:'default/userinfo/userProfilePic.png',
-                nickName:'倪文硕',
-                title:'JAVAJAVAJAVA',
-                createTime:'2018-11-27 11:23:37'
-            },{
-                profilePic:'default/userinfo/userProfilePic.png',
-                nickName:'倪文硕',
-                title:'JAVAJAVAJAVA',
-                createTime:'2018-11-27 11:23:37'
-            },{
-                profilePic:'default/userinfo/userProfilePic.png',
-                nickName:'倪文硕',
-                title:'JAVAJAVAJAVA',
-                createTime:'2018-11-27 11:23:37'
-            },{
-                profilePic:'default/userinfo/userProfilePic.png',
-                nickName:'倪文硕',
-                title:'JAVAJAVAJAVA',
-                createTime:'2018-11-27 11:23:37'
-            },{
-                profilePic:'default/userinfo/userProfilePic.png',
-                nickName:'倪文硕',
-                title:'JAVAJAVAJAVA',
-                createTime:'2018-11-27 11:23:37'
-            }],
-            collectList:[{
-                title:'吧啦吧啦吧啦吧啦吧啦吧啦吧啦吧啦吧啦吧吧'
-            },{
-                title:'房间里可是飞机离开书房里看书发电机发电'
-            },{
-                title:'是jog金额容量根据二哦i热加工i二哥i哦警方山东'
-            }],
+            loveMes:[],
+            collectList:[],
             navlist:[{
                 title:'Java',
-                url:'www.baidu.com'
+                url:'#/tieba?topic=java'
             },{
                 title:'DNF',
-                url:'www.baidu.com'
+                url:'#/tieba?topic=dnf'
             },{
-               title:'DNF',
-                url:'www.baidu.com' 
+               title:'足球',
+                url:'#/tieba?topic=足球' 
             },{
-               title:'DNF',
-                url:'www.baidu.com' 
+               title:'冒险岛',
+                url:'#/tieba?topic=冒险岛' 
             }]
         }
     },
     mounted() {
         this.getUserInfo()
         this.getMessage()
-        let scrollDiv = document.getElementsByClassName('el-scrollbar__wrap')[0]
-        scrollDiv.addEventListener('scroll',this.scrollEvent)
         // console.log(scrollDiv,'123')
         this.dynamicArticle()
+        this.getCollection()
     },
     methods: {
         scrollEvent(){
@@ -188,11 +161,22 @@ export default {
                         let ms = (new Date(createTime)).getTime();
                         this.loveMes[i].createTime = ms
                     }
-                    
+                    console.log(this.loveMes,'love')
+                    if(this.loveMes.length != 0) {
+                        let scrollDiv = document.getElementsByClassName('el-scrollbar__wrap')[0]
+                        scrollDiv.addEventListener('scroll',this.scrollEvent)
+                    }
                 }
             })
         },
-        go(){},
+        getCollection(){
+            let folderId = ''
+            axion.collectionList(folderId,this.token).then(res => {
+                if(res.data.retCode == 0) {
+                    this.collectList = res.data.param
+                }
+            })
+        },
         getUserInfo(){
             let param = {
                 token:this.token
@@ -306,5 +290,7 @@ export default {
         border-bottom:1px solid #00a1d6;
     }
 }
-.el-scrollbar__wrap{overflow-x:hidden;}
+.scroll{
+    .el-scrollbar__wrap{overflow-x:hidden;}
+}
 </style>

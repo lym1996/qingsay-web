@@ -60,6 +60,8 @@ const huoqu = (param) => post('/article/folder/save',param)
 const list = (token) => get('/article/listArticleFolder?token='+token)
 //上传文章图片
 const uploadArticlePic = (p) => commonPostBody('/img/uploadArticlePic', p)
+//上传评论图片
+const uploadCommentPic = (p) => commonPostBody('/img/uploadArticleCommentPic',p)
 //上传主题头像
 const uploadTopicPic = (p) => commonPostBody('/img/uploadTopicProfilePic',p)
 //获取图形验证码
@@ -114,8 +116,36 @@ const addTopic = (param) => post('/topic/add',param)
 const getConcernTopic = (pageNum,pageSize,token) => get('/concern/listConcernTopic?pageNum='+pageNum+'&pageSize='+pageSize+'&token='+token)
 //关注主题或者取消关注
 const concernTopic = (param) => post('/concern/topic',param)
+//关注用户
+const concernUser = (param) => post('/concern/user',param)
 //获取文章信息
-const getArticleInfo = (articleId) => get('/article/read/'+articleId)
+const getArticleInfo = (articleId,token) => get('/article/read/'+articleId+'?token='+token)
+//获取文章所有评论
+const getAllcomments = (articleId,pageNum,pageSize,token) => get('/comment/getArticleComment?articleId='+articleId+'&pageNum='+pageNum+'&pageSize='+pageSize+'&token='+token)
+//获取特定人的评论
+const getOnecomments = (param) => post('/comment/getUserComment',param)
+//获取特定文章的子评论
+const getSonComments = (param) => post('/comment/getSubComment',param)
+//点赞或取消点赞文章
+const praiseArticle = (param) => post('praise/article',param)
+//点赞或取消点赞评论
+const praiseComment = (param) => post('/praise/comment',param)
+//回复
+const comment = (param) => post('/comment/saveComment',param)
+//删除评论
+const deleteComments = (param) => post('/comment/removeComment',param)
+//获取收藏夹
+const listFold = (token) => get('/collection/listFolder?token='+token)
+//新建收藏夹
+const addNewFold = (param) => post('/collection/saveFolder',param)
+//添加收藏
+const collect = (param) => post('/collection/saveCollection',param)
+//罗列收藏
+const collectionList = (folderId,token) => get('/collection/listFolderCollection?folderId='+folderId+'&token='+token)
+//根据文章标题或作者搜索
+const searchByTitle = (titleOrAuthor,pageNum,pageSize,token) => get('/search/articleOrderByHot?titleOrAuthor='+titleOrAuthor+'&pageNum='+pageNum+'&pageSize='+pageSize+'&token='+token)
+//根据用户昵称和id搜索
+const searchByuser = (nikeNameOrUId,pageNum,pageSize,token) => get('/search/user?nikeNameOrUId='+nikeNameOrUId+'&pageNum='+pageNum+'&pageSize='+pageSize+'&token='+token)
 //暴露接口
 export default {
     baseURL,
@@ -147,5 +177,20 @@ export default {
     getConcernTopic,
     concernTopic,
     getArticleInfo,
-    getTopicInfoById
+    getTopicInfoById,
+    getAllcomments,
+    praiseArticle,
+    praiseComment,
+    getSonComments,
+    comment,
+    uploadCommentPic,
+    deleteComments,
+    listFold,
+    addNewFold,
+    collect,
+    concernUser,
+    getOnecomments,
+    searchByTitle,
+    searchByuser,
+    collectionList
 }

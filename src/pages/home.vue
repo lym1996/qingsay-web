@@ -59,80 +59,19 @@
                     </div>
                 </div>
                 <!-- 排行榜 -->
-                <div class="bgcolor-white border-color margintop10">
-                    <div class="clear">
-                        <div class="floatLeft marginleft10"><img src="../assets/common/img/rank.png" alt="" width="50" style="vertical-align: middle;"><span class="marginleft10 fontsize7 bold" style="vertical-align: middle;">热议榜</span></div>
-                        <div class="floatRight margintop10 marginright10 Ttype">
-                            <el-dropdown @command="handleCommand">
-                                <span class="el-dropdown-link">{{timeType}}<i class="el-icon-arrow-down el-icon--right"></i></span>
-                                <el-dropdown-menu slot="dropdown">
-                                    <el-dropdown-item v-for="(item,index) in options" :key="index" :command="item.label">{{item.label}}</el-dropdown-item>
-                                </el-dropdown-menu>
-                            </el-dropdown>
-                        </div>
-                        <div style="clear:both;"></div>
-                    </div>
-                    <div class="marginbottom20">
-                        <div v-for="(item,index) in rankList" :key="index" class="marginleft20 margintop10">
-                            <div v-if="index == 0">
-                                <div class="floatLeft">
-                                <img src="../assets/common/img/金牌.png" alt="" width="35" style="vertical-align: middle;">
-                                <span class="hotPoint marginleft20 fontsize4">{{item.title}}</span>
-                                </div>
-                                <div class="floatRight">
-                                    <span class="fontsize4">{{item.hotValue}}</span>
-                                    <img src="../assets/common/img/rankHot.png" class="marginright50" alt="" width="15">
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div v-if="index == 1">
-                                <div class="floatLeft">
-                                    <img src="../assets/common/img/银牌.png" alt="" width="35" style="vertical-align: middle;">
-                                    <span class="hotPoint marginleft20 fontsize4">{{item.title}}</span>
-                                </div>
-                                <div class="floatRight">
-                                    <span class="fontsize4">{{item.hotValue}}</span>
-                                    <img src="../assets/common/img/rankHot.png" class="marginright50" alt="" width="15">
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div v-if="index == 2">
-                                <div class="floatLeft">
-                                    <img src="../assets/common/img/铜牌.png" alt="" width="35" style="vertical-align: middle;">
-                                    <span class="hotPoint marginleft20 fontsize4">{{item.title}}</span>
-                                </div>
-                                <div class="floatRight">
-                                    <span class="fontsize4">{{item.hotValue}}</span>
-                                    <img src="../assets/common/img/rankHot.png" class="marginright50" alt="" width="15">
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                            <div v-if="index > 2" class="marginleft5 margintop20">
-                                <div class="floatLeft">
-                                    <div class="fontsize4 rankitem floatLeft"><span class="floatRight">{{index+1}}</span></div>
-                                    <div class="hotPoint marginleft30 fontsize4 floatLeft">{{item.title}}</div>
-                                    <div style="clear:both;"></div>
-                                </div>
-                                <div class="floatRight">
-                                    <span class="fontsize4">{{item.hotValue}}</span>
-                                    <img src="../assets/common/img/rankHot.png" class="marginright50" alt="" width="15">
-                                </div>
-                                <div style="clear:both;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <rankList></rankList>
             </div>
         </div>
     </div>
 </template>
 <script>
+import rankList from '../components/rankList.vue'
 import axion from '@/util/api.js'
 import carousel from '../components/carousel'
 import articleBreif from '../components/recommendArticle.vue'
 import userPhoto from '../assets/common/img/default.png'
 export default {
-    components: { carousel, articleBreif },
+    components: { carousel, articleBreif, rankList },
     data() {
         return {
             userPhoto:userPhoto,
@@ -200,7 +139,7 @@ export default {
             })
         },
         enterQs(){
-            if( this.searInput == ''){
+            if( this.searInput.trim() == ''){
                 this.$message.warning('请输入搜索内容')
                 return;
             }else {
@@ -212,7 +151,15 @@ export default {
                 let routeData = this.$router.resolve({ path:'/tieba' ,query:{topic:topicName}})
                 window.open(routeData.href,'_blank');
         },
-        search(){},
+        search(){
+            if(this.searInput.trim() == ''){
+                this.$message.warning('请输入搜索内容')
+                return;
+            }else {
+                let routeData = this.$router.resolve({ path:'/searchPage' ,query:{keyWord:this.searInput}})
+                window.open(routeData.href,'_blank');
+            }
+        },
         handleCommand(command){
             this.timeType = command
             this.getRankList(this.timeType)

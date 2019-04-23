@@ -1,0 +1,24 @@
+.searchPage{
+    .content{
+        overflow: hidden;
+        white-space:normal;
+        word-break: break-all;
+        text-overflow:ellipsis;
+        display:-webkit-box;
+        -webkit-box-orient: vertical;
+    }
+    .input-with-select{
+        .el-input-group__prepend{
+            width:80px;
+        }
+    }
+    .el-tabs__nav{
+        margin-left: 45%;
+    }
+    .el-tabs__item{
+        font-size:20px;
+    }
+    .listbottom{
+        border-bottom:1px solid #A9A9A9;
+    }
+}
