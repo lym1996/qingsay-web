@@ -37,7 +37,6 @@
                           action=""
                           :multiple="false"
                           :show-file-list="false"
-                          :limit="1"
                           :http-request="uploadTopicPic"
                           :on-change="selectFile"
                           accept=".jpg,.png,.jpeg"
@@ -149,6 +148,8 @@ export default {
             axion.concernTopic(param).then(res => {
                 if(res.data.retCode == 0) {
                     this.getTopicInfo()
+                }else if(res.data.retCode == 50004) {
+                    this.$message.warning('请登录')
                 }else{
                     this.$message.warning(res.data.retInfo)
                 }

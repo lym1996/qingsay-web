@@ -67,6 +67,7 @@ export default {
         handleCurrentChange(val){
             this.pageNum = val
             this.getArticle(this.activeName)
+            document.body.scrollTop = document.documentElement.scrollTop = 300;
         },
         getArticle(name){
             this.article = []

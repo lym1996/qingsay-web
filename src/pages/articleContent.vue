@@ -7,11 +7,11 @@
                 <div class="paddingtop20 paddingleft20 paddingbottom20 bgcolor-white border-bottom border-left border-right" style="background-color:#F2F4F7;">
                     <div class="floatLeft">
                         <img :src="topicInfo.topicProfilePic" alt="" width="60" height="60" class="vartivalmiddle">
-                        <span class="fontsize10 marginleft20 vartivalmiddle">{{topicInfo.topicInfo}}java</span>
+                        <span class="fontsize10 marginleft20 vartivalmiddle">{{topicInfo.topicName}}</span>
                         <span class="mes marginleft20 vartivalmiddle">关注:</span><span class=" marginleft10 vartivalmiddle " style="color:#FF7F3E">{{topicInfo.userConcernCount}}</span>
                         <span class="mes marginleft20 vartivalmiddle">帖子:</span><span class="marginleft10 vartivalmiddle" style="color:#FF7F3E">{{topicInfo.collectSayCount}}</span>
                         <span class="mes marginleft20 vartivalmiddle">文章:</span><span class="marginleft10 vartivalmiddle" style="color:#FF7F3E">{{topicInfo.collectArticleCount}}</span>
-                        <div class="marginleft80 desc">简介 :   {{topicInfo.description}}</div>
+                        <div class="marginleft85 desc">简介 :   {{topicInfo.description}}</div>
                     </div>
                     <div class="floatRight marginright20 margintop20">
                         <span class="vartivalmiddle fontsize2">创建者:</span>
@@ -23,7 +23,7 @@
             </div>
             <div>
                 <!-- 为文章 -->
-                <div v-if="articleInfo.type == 1" class="width1210 bgcolor-white marginXauto border-bottom border-left border-right">
+                <div v-if="articleInfo.type == 1" id="testTop" class="width1210 bgcolor-white marginXauto border-bottom border-left border-right">
                     <div class="floatLeft textAlignCenter" >
                         <div class="marginX20 margintop20 paddingX5 border paddingtop5 bgcolor-white">
                             <img :src="articleInfo.profilePic" alt="" width="80" height="80">
@@ -32,8 +32,8 @@
                             <span class=" fontsize0" style="color:#FFA640">{{articleInfo.nickName}}</span>
                         </div>
                         <div class="margintop5 marginbottom10" style="font-size:12px;color:#99A2AA;">
-                            <span>帖子数：</span><span>{{articleInfo.authorSayCount}}</span>
-                            <span>文章数：</span><span>{{articleInfo.authorArticleCount}}</span>
+                            <span>帖子数:</span><span>{{articleInfo.authorSayCount}}</span>
+                            <span>文章数:</span><span>{{articleInfo.authorArticleCount}}</span>
                         </div>
                         <div class="marginbottom10" v-if="userId != articleInfo.uqsId">
                             <el-button size="mini" :type="articleInfo.hasConcernUser == true?'':'danger'"  v-html="articleInfo.hasConcernUser == true?'已关注':'关注'" style="width:90px;" @click="concernUser(articleInfo.uqsId)"></el-button>
@@ -51,8 +51,13 @@
                         </div>
                         <div style="clear:both;"></div>
                     </div>
-                        <div class="marginX20 margin20X ">
-                            <div class="Acontent" style="width:1036px;" v-html="articleInfo.content"></div>
+                        <div>
+                            <div class="Acontent marginX20 margin20X" style="width:1036px;" v-html="articleInfo.content"></div>
+                            <div v-if="articleInfo.qsLock != 0" class="floatRight marginright20">
+                                <span>审核：</span>
+                                <el-button size="mini" type="primary" @click="checkArticleOk(articleInfo.id,articleInfo.qsLock)">通过</el-button>
+                                <el-button size="mini" type="danger" @click="checkArticleBack(articleInfo.id,articleInfo.qsLock)">驳回</el-button>
+                            </div>
                         </div>
                     </div>
                     <div style="clear:both;"></div>
@@ -72,7 +77,7 @@
                         <div style="clear:both;"></div>
                     </div>
                     <!-- 帖子内容 -->
-                    <div v-if="articleInfo.type == 0" class="border-bottom">
+                    <div v-if="articleInfo.type == 0" id="testTop" class="border-bottom">
                         <div class="floatLeft textAlignCenter" >
                             <div style="text-align:left;margin-left:-2px;margin-top:-2px;">
                                 <img src="../assets/common/img/firstFloor.png" alt="" width="40" height="40">
@@ -84,11 +89,11 @@
                                 <span class=" fontsize0" style="color:#FFA640">{{articleInfo.nickName}}</span>
                             </div>
                             <div class="margintop5 marginbottom5" style="font-size:12px;color:#99A2AA;">
-                                <span>帖子数：</span><span>{{articleInfo.authorSayCount}}</span>
-                                <span>文章数：</span><span>{{articleInfo.authorArticleCount}}</span>
+                                <span>帖子数:</span><span>{{articleInfo.authorSayCount}}</span>
+                                <span>文章数:</span><span>{{articleInfo.authorArticleCount}}</span>
                             </div>
                             <div class="marginbottom10" v-if="userId != articleInfo.uqsId">
-                                <el-button size="mini" type="danger" style="width:90px;" @click="concernUser(articleInfo.uqsId)">关注</el-button>
+                                <el-button size="mini" :type="articleInfo.hasConcernUser == true?'':'danger'"  v-html="articleInfo.hasConcernUser == true?'已关注':'关注'" style="width:90px;" @click="concernUser(articleInfo.uqsId)">关注</el-button>
                             </div>
                             <div class="marginbottom10">
                                 <el-button type="text" size="mini" @click="onlyLook">只看他/她</el-button>
@@ -112,8 +117,8 @@
                                 <span class=" fontsize0" style="color:#FFA640">{{item.nickName}}</span>
                             </div>
                             <div class="margintop5 marginbottom5" style="font-size:12px;color:#99A2AA;">
-                                <span>帖子数：</span><span>{{item.sayCount}}</span>
-                                <span>文章数：</span><span>{{item.articleCount}}</span>
+                                <span>帖子数:</span><span>{{item.sayCount}}</span>
+                                <span>文章数:</span><span>{{item.articleCount}}</span>
                             </div>
                             <div class="marginbottom10" v-show="userId != item.uqsId">
                                 <el-button size="mini" :type="item.hasConcernUser == null?'danger':''" v-html="item.hasConcernUser == null?'关注':'已关注'" style="width:90px;" @click="concernComment(item.uqsId,item.hasConcernUser)">关注</el-button>
@@ -128,7 +133,7 @@
                                 <div class="margintop80">
                                     <span class="marginright20" style="color:#99A2AA;">{{item.createTime}}</span>
                                     <img  class="cursorPointer" :src="item.hasPraise == null?NoPrisePic:hasPraisePic" alt="" width="12" height="12" @click="commentParise(item.id,item.hasPraise,item.praiseCount)">
-                                    <span v-if="item.hasPraise != null" style="color:#99A2AA;">({{item.praiseCount}})</span>
+                                    <span style="color:#99A2AA;">({{item.praiseCount}})</span>
                                     <img class="marginleft20" src="../assets/common/img/resend.png" alt="" width="12" height="12">
                                     <el-button type="text" v-if="index != isIndex" @click="showSend(index)">回复</el-button>
                                     <el-button v-if="index == isIndex" type="text" @click="hide()">收起</el-button>
@@ -272,12 +277,78 @@ export default {
             sessionStorage.setItem('topicId',this.topicId)
         }
     },
+    created() {
+        if(this.$route.query.from == 'admin'){
+            if(this.token && this.token != this.$route.query.token){
+                localStorage.setItem('user_token',this.$route.query.token)
+                localStorage.setItem('userId',this.$route.query.userId)
+            }
+        }
+    },
     mounted() {
         this.articleId = this.$route.query.articleId
         this.getArticleInfo()
         this.getAllComments()
     },
     methods: {
+        checkArticleOk(id,stepType){
+            console.log('id',id,'stepType',stepType)
+            let param = {
+                articleId:id,
+                token:this.token,
+                type:0
+            }
+            if(stepType == 2) {
+                axion.bazhuReview(param).then( res => {
+                    if(res.data.retCode == 0) {
+                        this.$message.success(res.data.retInfo)
+                        console.log('霸主通过')
+                        this.getArticleInfo()
+                    }
+                })
+            }else if(stepType == 1) {
+               axion.adminReview(param).then( res => {
+                    if(res.data.retCode == 0) {
+                        this.$message.success(res.data.retInfo)
+                        console.log('管理员通过')
+                        this.getArticleInfo()
+                    }
+                }) 
+            }
+        },
+        checkArticleBack(id,stepType){
+            let param = {
+                articleId:id,
+                token:this.token,
+                type:1
+            }
+            this.$prompt('请输入驳回原因', '驳回', {
+                  confirmButtonText: '确定',
+                  cancelButtonText: '取消',
+                  inputPattern: /\S/,
+                  inputErrorMessage: '请填写原因'
+                }).then(({ value }) => {
+                    param.reason = value
+                  if(stepType == 2){
+                      axion.bazhuReview(param).then( res =>{
+                          if(res.data.retCode == 0){
+                              this.$message.success('驳回成功')
+                              window.close()
+                              console.log('霸主驳回')
+                          }
+                      })
+                  }else if(stepType == 1) {
+                      axion.adminReview(param).then( res =>{
+                          if(res.data.retCode == 0){
+                              this.$message.success('驳回成功')
+                              console.log('管理员驳回')
+                          }
+                      })
+                  }
+                }).catch(() => {
+                    return;     
+                });
+        },
         getArticleInfo(){
             axion.getArticleInfo(this.articleId,this.token).then( res => {
                 if(res.data.retCode == 0) {
@@ -285,6 +356,12 @@ export default {
                     this.topicId = this.articleInfo.topicId
                     this.articleInfo.profilePic = this.$store.state.imgUrl + this.articleInfo.profilePic
                     console.log(this.articleInfo.profilePic)
+                }else if(res.data.retCode == 50012 ) {
+                    let routeData = this.$router.resolve({ path:'/315' ,})
+                        window.open(routeData.href,'_blank');
+                }
+                else {
+                    this.$router.push({ path:'/305' })
                 }
             })
         },
@@ -351,6 +428,8 @@ export default {
             axion.praiseArticle(param).then( res => {
                 if( res.data.retCode == 0) {
                     this.getArticleInfo()
+                }else if(res.data.retCode == 50004) {
+                    this.$message.warning('请登录')
                 }
             })
         },
@@ -458,19 +537,29 @@ export default {
                     this.text = ''
                     this.getAllComments()
                     this.$message.success('发表成功')
+                }else if(res.data.retCode == 50004) {
+                    this.$message.warning('请登录')
                 }
             })
         },
         openDialog(hasCollection){
-            this.dialogshow = true
-            this.getFoldList()
+            console.log("token" + this.token)
+            if(this.token != null) {
+                this.dialogshow = true
+                this.getFoldList()
+            }else {
+                this.$message.warning('请登录')
+            }
         },
         getFoldList(){
-            axion.listFold(this.token).then(res => {
+            axion.listFold(this.userId).then(res => {
                 if(res.data.retCode == 0) {
                     this.folderList = res.data.param
                 }else if(res.data.retCode == 50099){
                     this.folderList = []
+                }else if(res.data.retCode == 50004) {
+                    this.$message.warning('请登录')
+                    this.dialogshow = false
                 }
             })
         },
@@ -499,7 +588,9 @@ export default {
                     this.dialogshow = false
                     this.$message.success('收藏成功')
                     this.getArticleInfo()
-                    }
+                    }else if(res.data.retCode == 50004) {
+                    this.$message.warning('请登录')
+                }
                 }
             })
             }
@@ -514,6 +605,8 @@ export default {
                 if(res.data.retCode == 0) {
                     this.getArticleInfo()
                     console.log('关注成功')
+                }else if(res.data.retCode == 50004) {
+                    this.$message.warning('请登录')
                 }
             })
         },
@@ -527,6 +620,8 @@ export default {
                 if(res.data.retCode == 0) {
                     this.getAllComments()
                     console.log('关注成功')
+                }else if(res.data.retCode == 50004) {
+                    this.$message.warning('请登录')
                 }
             })
         },
@@ -598,7 +693,8 @@ export default {
             this.getAllComments()
         },
         handleCurrentChange(val){
-            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            let div  = document.getElementById('testTop')
+            document.body.scrollTop = document.documentElement.scrollTop = div.offsetTop+div.clientHeight - 45;
             this.pageNum = val
             this.getAllComments()
         },

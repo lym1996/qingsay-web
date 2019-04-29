@@ -173,6 +173,7 @@ $theicons:
 
 // 覆盖饿了么样式
 .el-form-item {
+    margin-bottom:10px;
     .el-form-item__label {
         color: #666;
     }
@@ -446,4 +447,12 @@ $theicons:
             border-radius: 2px;
         }
     }
+}
+.introduction{
+    overflow: hidden;
+    white-space:normal;
+    word-break: break-all;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-box-orient: vertical;
 }

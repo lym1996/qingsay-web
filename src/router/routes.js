@@ -24,9 +24,24 @@ const routes = [{
         component: lazyload('searchPage'),
         meta: { title:'搜索页'}
     },{
+        path: 'personCenter',
+        name: 'personCenter',
+        component: lazyload('personCenter'),
+        meta: { title:'个人空间'}
+    },{
         path: '404',
         name: '404',
         component: lazyload('404'),
+        meta: { title:'404'}
+    },{
+        path: '315',
+        name: '315',
+        component: lazyload('315'),
+        meta: { title:'文章审核中'}
+    },{
+        path: '305',
+        name: '305',
+        component: lazyload('305'),
         meta: { title:'404'}
     },]
 }]

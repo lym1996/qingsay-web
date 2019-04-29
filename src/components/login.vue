@@ -210,7 +210,7 @@ export default {
                   if(res.data.retCode == 0) {
                     localStorage.setItem('user_phone',res.data.param.phone)
                     localStorage.setItem('user_token',res.data.param.token)
-                    localStorage.setItem('isLogin',1)
+                    localStorage.setItem('isLogin',true)
                     localStorage.setItem('userId',res.data.param.user_id)
                     history.go(0)
                   }else {

@@ -102,6 +102,8 @@ export default {
             axion.addTopic(param).then( res => {
                 if( res.data.retCode == 0) {
                     this.$router.push({path:'/tieba',query:{topic:this.topicName}})
+                }else if(res.data.retCode == 50004) {
+                    this.$message.warning('请登录')
                 }else {
                     this.$message.warning(res.data.retInfo)
                 }

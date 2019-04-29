@@ -122,6 +122,7 @@ export default {
                 content:this.article,
                 title:this.title,
                 token:this.token,
+                description:this.textarea,
                 topicId:parseInt(this.topicId),
                 type:parseInt(this.type)
             }
@@ -130,6 +131,12 @@ export default {
                 this.$emit('closeDialog',false)
                 if(res.data.retCode == 0) {
                     this.$message.success('投稿成功，等待审核')
+                    this.content = ''
+                    this.article = ''
+                    this.folder = ''
+                    this.type = 0
+                    this.title = ''
+                    this.textarea = ''
                     this.$emit('fresh',true)
                 }
             })

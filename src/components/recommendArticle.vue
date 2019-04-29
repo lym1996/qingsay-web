@@ -1,5 +1,5 @@
 <template>
-    <div class="recommendArticle">
+    <div class="recommendArticle relative">
         <div class="paddingX30">
             <el-tabs v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="精彩推荐" name="first">
@@ -9,6 +9,12 @@
                     <articleList :activeName="activeName" :article="article"></articleList>
                 </el-tab-pane>
             </el-tabs>
+        </div>
+        <div class="textAlignCenter">
+            <el-button size="mini" type="primary" @click="backTop">返回顶部</el-button>
+        </div>
+        <div class="absolute cursorPointer" style="right:30px;top:5px;">
+            <img src="../assets/common/img/fresh.png" alt="" width="25" height="25" @click="refresh">
         </div>
     </div>
 </template>
@@ -40,7 +46,6 @@ export default {
                         for(let i =0;i<this.article.length;i++) {
                             this.article[i].profilePic = this.$store.state.imgUrl+this.article[i].profilePic
                         }
-                        console.log(this.article,'11')
                     }
                 })
             }else if(name == 'second') {
@@ -53,6 +58,12 @@ export default {
                     }
                 })
             }
+        },
+        refresh(){
+            this.getArticle(this.activeName)
+        },
+        backTop(){
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
         }
     },
 }

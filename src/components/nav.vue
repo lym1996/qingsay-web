@@ -15,7 +15,7 @@
                     width="30"
                     trigger="hover">
                     <div>
-                        <div class="dongtai paddingtop10 paddingbottom10 paddingleft35 cursorPointer">个人中心</div>
+                        <div class="dongtai paddingtop10 paddingbottom10 paddingleft35 cursorPointer" @click="goPerson">个人空间</div>
                         <div class="dongtai paddingtop10 paddingbottom10 paddingleft45 cursorPointer" @click="logout">退出</div>
                     </div>   
                     <img slot="reference" :src="userInfo.profilePic" width="30" height="30" alt="" class="cursorPointer"  style="vertical-align: middle;border-radius:20px;">
@@ -39,34 +39,62 @@
                         placement="bottom"
                         width="400"
                         trigger="hover">
-                        <div v-if="loveMes.length != 0">
-                            <div class="scroll" style="height:200px;">
-                              <el-scrollbar  :native="false" style="height:100%;">
-                                <div v-for="(item,index) in loveMes" :key="index" class="paddingtop10 paddingbottom10 paddingleft10 clear dongtai">
-                                    <img :src="item.profilePic" alt="" width="40" class="floatLeft">
-                                    <div class="floatLeft marginleft10">
-                                        <div><i class="el-icon-edit-outline"></i><span class="marginleft5 marginright30 fontsize2 cursorPointer">{{item.nickName}}</span><span class="color-999">投稿了</span></div>
-                                        <div><span class="titleS">{{item.title}}</span></div>
+                        <el-tabs v-model="dynamicActive" @tab-click="handleClick">
+                            <el-tab-pane label="青说" name="first">
+                                <div v-if="loveMes.length != 0">
+                                    <div class="scroll" style="height:200px;">
+                                      <el-scrollbar  :native="false" style="height:100%;">
+                                        <div v-for="(item,index) in loveMes" :key="index" class="paddingtop10 paddingbottom10 paddingleft10 clear dongtai">
+                                            <img :src="item.profilePic" alt="" width="40" height="40" class="floatLeft">
+                                            <div class="floatLeft marginleft10">
+                                                <div><i class="el-icon-edit-outline"></i><span class="marginleft5 marginright30 fontsize2 cursorPointer">{{item.nickName}}</span><span class="color-999">投稿了</span></div>
+                                                <div><span class="titleS" @click="lookArticle(item.id)">{{item.title}}</span></div>
+                                            </div>
+                                            <img class="floatRight marginright20" v-if="dynamicArticleTime < item.createTime" src="../assets/common/img/new.png" width="40" alt="">
+                                        </div>
+                                      </el-scrollbar>
                                     </div>
-                                    <img class="floatRight marginright20" v-if="dynamicArticleTime < item.createTime" src="../assets/common/img/new.png" width="40" alt="">
+                                    <el-button type="primary" style="padding:12px 159px;" @click="checkMes(5)">查看全部</el-button>
                                 </div>
-                              </el-scrollbar>
-                            </div>
-                            <el-button type="primary" style="padding:12px 159px;">查看全部</el-button>
-                        </div>
-                        <div v-if="loveMes.length == 0" class="textAlignCenter fontsize4">
-                            <span>暂无动态</span>
-                        </div>
+                                <div v-if="loveMes.length == 0" class="textAlignCenter fontsize4">
+                                    <span>暂无动态</span>
+                                </div>
+                            </el-tab-pane>
+                            <el-tab-pane label="文章" name="second">
+                                <div v-if="loveMes.length != 0">
+                                    <div class="scroll" style="height:200px;">
+                                      <el-scrollbar  :native="false" style="height:100%;">
+                                        <div v-for="(item,index) in loveMes" :key="index" class="paddingtop10 paddingbottom10 paddingleft10 clear dongtai">
+                                            <img :src="item.firstContentPic?item.firstContentPic:item.profilePic" alt="" width="40" height="40" class="floatLeft">
+                                            <div class="floatLeft marginleft10">
+                                                <div><i class="el-icon-edit-outline"></i><span class="marginleft5 marginright30 fontsize2 cursorPointer">{{item.nickName}}</span><span class="color-999">投稿了</span></div>
+                                                <div><span class="titleS" @click="lookArticle(item.id)">{{item.title}}</span></div>
+                                            </div>
+                                            <img class="floatRight marginright20" v-if="dynamicArticleTime < item.createTime" src="../assets/common/img/new.png" width="40" alt="">
+                                        </div>
+                                      </el-scrollbar>
+                                    </div>
+                                    <el-button type="primary" style="padding:12px 159px;" @click="checkMes(6)">查看全部</el-button>
+                                </div>
+                                <div v-if="loveMes.length == 0" class="textAlignCenter fontsize4">
+                                    <span>暂无动态</span>
+                                </div>
+                            </el-tab-pane>
+                        </el-tabs>
                         <span class="navright" style="font-size:14px;" slot="reference">动态</span>
                     </el-popover>
                     <el-popover
                         placement="bottom"
                         width="400"
                         trigger="hover">
-                            <div class="textAlginCenter">
+                            <div v-if="collectList.length != 0" class="textAlginCenter">
                                 <ul style="list-style:disc;">
-                                    <li class="textAlginCenter dongtai paddingbottom10 paddingtop10 paddingleft10 paddingright10 fontsize2 cursorPointer" v-for="(item,index) in collectList" :key="index">{{item.articleTitle}}</li>
+                                    <li class="textAlginCenter dongtai paddingbottom10 paddingtop10 paddingleft10 paddingright10 fontsize4 cursorPointer" v-for="(item,index) in collectList" :key="index" @click="checkMes(7)">{{item.folderName}}</li>
                                 </ul>
+                                <el-button class="margintop10" type="primary" style="padding:12px 159px;" @click="checkMes(7)">查看收藏</el-button>
+                            </div>
+                            <div v-if="collectList.length == 0" class="textAlignCenter fontsize4">
+                                    <span>暂无收藏</span>
                             </div>
                         <span class="navright" style="font-size:14px;" slot="reference">收藏</span>
                     </el-popover>
@@ -89,8 +117,9 @@ export default {
     components:{ login },
     data() {
         return {
-            dynamicArticleTime:localStorage.getItem('dynamicArticle'),
+            dynamicArticleTime:localStorage.getItem('dynamicArticleTime'),
             token:localStorage.getItem('user_token'),
+            userId:localStorage.getItem('userId'),
             isLogin:localStorage.getItem('isLogin'),
             ifLogin:true,
             tabIndex:'',
@@ -103,10 +132,13 @@ export default {
             pageNum:1,
             pageSize:10,
             pages:1,
-            type:0,
+            type:1,
             loveMes:[],
             collectList:[],
             navlist:[{
+                title:'首页',
+                url:'#/home'
+            },{
                 title:'Java',
                 url:'#/tieba?topic=java'
             },{
@@ -118,17 +150,49 @@ export default {
             },{
                title:'冒险岛',
                 url:'#/tieba?topic=冒险岛' 
-            }]
+            }],
+            dynamicActive:'first',
+        }
+    },
+    created() {
+        if(this.$route.query.from == 'admin'){
+            if(!this.token || this.token != this.$route.query.token){
+                console.log('3333')
+                localStorage.setItem('user_token',this.$route.query.token)
+                console.log(this.$route.query.token)
+                localStorage.setItem('userId',this.$route.query.userId)
+                localStorage.setItem('isLogin', true)
+            }
         }
     },
     mounted() {
+        console.log('token',this.token)
+        console.log('isLogin',this.isLogin)
         this.getUserInfo()
         this.getMessage()
         // console.log(scrollDiv,'123')
         this.dynamicArticle()
-        this.getCollection()
+        this.getCollection()               
+    },
+    updated(){
+        if(this.loveMes.length != 0){
+        let scrollDiv = document.getElementsByClassName('el-scrollbar__wrap')[0]
+        console.log('div',scrollDiv)
+        scrollDiv.addEventListener('scroll',this.scrollEvent)
+        let scrollDiv2 = document.getElementsByClassName('el-scrollbar__wrap')[1]
+        console.log('div',scrollDiv)
+        scrollDiv2.addEventListener('scroll',this.scrollEvent)
+        }
     },
     methods: {
+        handleClick(tab,event) {
+            this.pageNum = 1
+            this.pageSize = 10
+            this.pages = 1
+            this.loveMes = []
+            this.dynamicActive = tab.name
+            this.dynamicArticle()
+        },
         scrollEvent(){
             let dom = document.getElementsByClassName('el-scrollbar__wrap')[0]
             let scrollTop = dom.scrollTop
@@ -140,38 +204,46 @@ export default {
                     this.dynamicArticle()
                 }
             }
+            let dom2 = document.getElementsByClassName('el-scrollbar__wrap')[0]
+            let scrollTop2 = dom.scrollTop
+            let wholeHeight2 = dom.scrollHeight
+            let divHeight2 = dom.clientHeight
+            if(scrollTop2+divHeight2 >= wholeHeight2) {
+                if(this.pages > this.pageNum){
+                    this.pageNum++
+                    this.dynamicArticle()
+                }
+            }
         },
         dynamicArticle(){
+            if(this.dynamicActive == 'first') {
+                this.type = 0
+            }else if(this.dynamicActive == 'second') {
+                this.type = 1
+            }
             axion.dynamicArticle(this.type,this.pageNum,this.pageSize,this.token).then( res => {
                 if(res.data.retCode == 0) {
                     let createTime = res.data.param.getLastInfoTime
                     createTime = createTime.replace(new RegExp("-","gm"),"/");
                     let ms = (new Date(createTime)).getTime();
-                    if(this.dynamicArticleTime == null){
                         localStorage.setItem('dynamicArticleTime',ms)
+                    this.pages = res.data.param.dynamicArticleDTOs.pages
+                    for(let i = 0;i<res.data.param.dynamicArticleDTOs.rows.length;i++){
+                        res.data.param.dynamicArticleDTOs.rows[i].profilePic = this.$store.state.imgUrl+res.data.param.dynamicArticleDTOs.rows[i].profilePic
+                        let createTime = res.data.param.dynamicArticleDTOs.rows[i].createTime
+                        createTime = createTime.replace(new RegExp("-","gm"),"/");
+                        let ms = (new Date(createTime)).getTime();
+                        res.data.param.dynamicArticleDTOs.rows[i].createTime = ms
                     }
                     for(let i = 0;i<res.data.param.dynamicArticleDTOs.rows.length;i++) {
                         this.loveMes.push(res.data.param.dynamicArticleDTOs.rows[i]);
                     }
-                    this.pages = res.data.param.dynamicArticleDTOs.pages
-                    for(let i = 0;i<this.loveMes.length;i++){
-                        this.loveMes[i].profilePic = this.$store.state.imgUrl+this.loveMes[i].profilePic
-                        let createTime = this.loveMes[i].createTime
-                        createTime = createTime.replace(new RegExp("-","gm"),"/");
-                        let ms = (new Date(createTime)).getTime();
-                        this.loveMes[i].createTime = ms
-                    }
                     console.log(this.loveMes,'love')
-                    if(this.loveMes.length != 0) {
-                        let scrollDiv = document.getElementsByClassName('el-scrollbar__wrap')[0]
-                        scrollDiv.addEventListener('scroll',this.scrollEvent)
-                    }
                 }
             })
         },
         getCollection(){
-            let folderId = ''
-            axion.collectionList(folderId,this.token).then(res => {
+            axion.listFold(this.userId).then(res => {
                 if(res.data.retCode == 0) {
                     this.collectList = res.data.param
                 }
@@ -186,6 +258,11 @@ export default {
                     this.userInfo = res.data.param
                     this.userInfo.profilePic = this.$store.state.imgUrl+this.userInfo.profilePic
                     console.log('11',this.userInfo.profilePic)
+                }else if(res.data.retCode == 50004) {
+                    localStorage.removeItem('user_token');
+                    this.isLogin = false
+                    localStorage.removeItem('user_phone')
+                    localStorage.removeItem('userId')
                 }
             })
         },
@@ -230,7 +307,16 @@ export default {
             this.tabIndex = index
         },
         checkMes(type){
-            console.log('aaa')
+            let routeData = this.$router.resolve({ path:'/personCenter' ,query:{userId:this.userInfo.uqsId,type:type}})
+            window.open(routeData.href,'_blank');
+        },
+        goPerson(){
+            let routeData = this.$router.resolve({ path:'/personCenter' ,query:{userId:this.userInfo.uqsId}})
+            window.open(routeData.href,'_blank');
+        },
+        lookArticle(id){
+            let routeData = this.$router.resolve({ path:'/articleContent' ,query:{articleId:id}})
+            window.open(routeData.href,'_blank');
         },
         logout() {
             //调退出接口 if 成功 sessionStorage.removeItem

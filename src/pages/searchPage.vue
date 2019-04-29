@@ -14,6 +14,51 @@
         <div class="content width980 marginXauto margintop40 bgcolor-white">
             <div>
                 <el-tabs  v-model="activeName" @tab-click="handleClick">
+                    <el-tab-pane label="文章" name="article">
+                        <div class="article marginbottom20">
+                            <div v-for="(item,index) in articleList" :key="index" class="marginbottom10">
+                                <div v-if="!!item.firstContentPic" :class="['paddingbottom20','paddingtop10', {'listbottom':index != 9}]">
+                                  <img :src="item.firstContentPic" alt="" width="100" height="100" class="floatLeft marginleft20" style="vertical-align: middle">
+                                  <div class="floatLeft marginleft20" style="width:820px;">
+                                      <span class="title" @click="lookArticle(item.id)">{{item.title}}</span>
+                                      <span class="marginleft10" style="color:#A9A9A9;">{{item.topicName}}</span>
+                                      <div class="content" v-if="!!item.littleContent" >{{item.littleContent}}</div>
+                                      <div class="content" v-if="!!item.content" >{{item.content}}</div>
+                                  </div>
+                                  <div style="clear:both;"></div>
+                                  <div class="marginleft20 margintop10 marginright25">
+                                      <div class="floatLeft">
+                                          <img src="../assets/common/img/look.png" alt="" width="15" height="15" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:60px;">{{item.browseCount}}</span>
+                                       <img class="marginleft10" src="../assets/common/img/prise.png" alt="" width="15" height="15" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:60px;">{{item.praiseCount}}</span>
+                                      </div>
+                                      <div class="floatRight">
+                                          <img class="marginleft10" :src="item.profilePic" alt="" width="15" height="20" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:140px;">作者：{{item.nickName}}</span>
+                                          <img class="marginleft10" src="../assets/common/img/time.png" alt="" width="15" height="15" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:140px;">{{item.createTime}}</span>
+                                      </div>
+                                      <div style="clear:both;"></div>
+                                  </div>
+                                </div>
+                                <div v-if="!item.firstContentPic" :class="['paddingbottom20','paddingtop10', {'listbottom':index != 9}]">
+                                  <div class="marginleft20" style="width:940px;">
+                                      <span class="title" @click="lookArticle(item.id)">{{item.title}}</span>
+                                      <div class="content">{{item.littleContent}}</div>
+                                      <div class="content" v-if="!!item.content" >{{item.content}}</div>
+                                  </div>
+                                  <div class="marginleft20 margintop10 marginright20">
+                                      <div class="floatLeft">
+                                          <img src="../assets/common/img/look.png" alt="" width="15" height="15" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:60px;">{{item.browseCount}}</span>
+                                          <img class="marginleft10" src="../assets/common/img/prise.png" alt="" width="15" height="15" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:60px;">{{item.praiseCount}}</span>
+                                      </div>
+                                      <div class="floatRight">
+                                          <img class="marginleft10" :src="item.profilePic" alt="" width="15" height="20" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:140px;">作者：{{item.nickName}}</span>
+                                          <img class="marginleft10" src="../assets/common/img/time.png" alt="" width="15" height="15" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:140px;">{{item.createTime}}</span>
+                                      </div>
+                                       <div style="clear:both;"></div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </el-tab-pane>
                     <el-tab-pane label="用户" name="user">
                         <div class="user marginbottom20 margintop20">
                             <div v-for="(item,index) in userList" :key="index" class=" paddingbottom10 paddingX20 border-bottom">
@@ -22,7 +67,7 @@
                                 </div>
                                 <div class="floatLeft marginleft20">
                                     <div>
-                                        <span class="fontsize6 bold">{{item.nickName}}</span>
+                                        <span class="fontsize6 bold cursorPointer" @click="checkUser(item.uqsId)">{{item.nickName}}</span>
                                         <el-button v-if="item.uqsId != userId" class="marginleft20" size="mini" v-html="item.hasConcern == null?'关注':'已关注'" :type="item.hasConcern == null?'danger':''" @click="concern(item.uqsId,item.hasConcern)"></el-button>
                                     </div>
                                     <div class="margintop5" style="color:#99A2AA;font-size:13px;">
@@ -72,51 +117,6 @@
                             </div>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="文章" name="article">
-                        <div class="article marginbottom20">
-                            <div v-for="(item,index) in articleList" :key="index" class="marginbottom10">
-                                <div v-if="!!item.firstContentPic" :class="['paddingbottom20','paddingtop10', {'listbottom':index != 9}]">
-                                  <img :src="item.firstContentPic" alt="" width="100" height="100" class="floatLeft marginleft20" style="vertical-align: middle">
-                                  <div class="floatLeft marginleft20" style="width:820px;">
-                                      <span class="title" @click="lookArticle(item.id)">{{item.title}}</span>
-                                      <span class="marginleft10" style="color:#A9A9A9;">{{item.topicName}}</span>
-                                      <div class="content" v-if="!!item.littleContent" >{{item.littleContent}}</div>
-                                      <div class="content" v-if="!!item.content" >{{item.content}}</div>
-                                  </div>
-                                  <div style="clear:both;"></div>
-                                  <div class="marginleft20 margintop10 marginright25">
-                                      <div class="floatLeft">
-                                          <img src="../assets/common/img/look.png" alt="" width="15" height="15" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:60px;">{{item.browseCount}}</span>
-                                       <img class="marginleft10" src="../assets/common/img/prise.png" alt="" width="15" height="15" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:60px;">{{item.praiseCount}}</span>
-                                      </div>
-                                      <div class="floatRight">
-                                          <img class="marginleft10" :src="item.profilePic" alt="" width="15" height="20" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:140px;">作者：{{item.nickName}}</span>
-                                          <img class="marginleft10" src="../assets/common/img/time.png" alt="" width="15" height="15" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:140px;">{{item.createTime}}</span>
-                                      </div>
-                                      <div style="clear:both;"></div>
-                                  </div>
-                                </div>
-                                <div v-if="!item.firstContentPic" :class="['paddingbottom20','paddingtop10', {'listbottom':index != 9}]">
-                                  <div class="marginleft20" style="width:940px;">
-                                      <span class="title" @click="lookArticle(item.id)">{{item.title}}</span>
-                                      <div class="content">{{item.littleContent}}</div>
-                                      <div class="content" v-if="!!item.content" >{{item.content}}</div>
-                                  </div>
-                                  <div class="marginleft20 margintop10 marginright20">
-                                      <div class="floatLeft">
-                                          <img src="../assets/common/img/look.png" alt="" width="15" height="15" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:60px;">{{item.browseCount}}</span>
-                                          <img class="marginleft10" src="../assets/common/img/prise.png" alt="" width="15" height="15" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:60px;">{{item.praiseCount}}</span>
-                                      </div>
-                                      <div class="floatRight">
-                                          <img class="marginleft10" :src="item.profilePic" alt="" width="15" height="20" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:140px;">作者：{{item.nickName}}</span>
-                                          <img class="marginleft10" src="../assets/common/img/time.png" alt="" width="15" height="15" style="vertical-align: middle;"><span class="marginleft10" style="vertical-align: middle;display:inline-block;width:140px;">{{item.createTime}}</span>
-                                      </div>
-                                       <div style="clear:both;"></div>
-                                  </div>
-                                </div>
-                            </div>
-                        </div>
-                    </el-tab-pane>
                 </el-tabs>
             </div>
             <div class="textAlignCenter margin20X">
@@ -157,6 +157,10 @@ export default {
     methods: {
         lookArticle(id){
             let routeData = this.$router.resolve({ path:'/articleContent' ,query:{articleId:id}})
+                window.open(routeData.href,'_blank');
+        },
+        checkUser(id){
+            let routeData = this.$router.resolve({ path:'/personCenter' ,query:{userId:id}})
                 window.open(routeData.href,'_blank');
         },
         handleClick(tab,event){

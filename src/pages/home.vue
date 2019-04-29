@@ -5,7 +5,7 @@
         </div>
         <!-- 搜索框 -->
         <div class="search width1210 marginXauto margintop20">
-            <el-input placeholder="请输入感兴趣的内容" v-model="searInput">
+            <el-input placeholder="请输入感兴趣的内容" v-model="searchInput">
                 <el-button slot="append" @click="enterQs">进入青说</el-button>
             </el-input>
             <el-button @click="search">搜索</el-button>
@@ -15,7 +15,7 @@
             <div style="margin-left:25%;" class="margintop5">
                 <img src="../assets/common/img/hot.png" alt="" width="20" style="vertical-align: top;">
                 <span>热门关键词 : </span>
-                <span v-for="(item,index) in hotKeyWord" :key="index" class="hotword cursorPointer paddingX5 color-333">{{item}}</span>
+                <span v-for="(item,index) in hotKeyWord" :key="index" class="hotword cursorPointer paddingX5 color-333" @click="searchHotkey(item)">{{item}}</span>
             </div>
         </div>
         <div class="width1210 marginXauto margintop20 clear marginbottom20">
@@ -50,8 +50,8 @@
                         <div style="clear:both;"></div>
                     </div>
                     <div class="marginleft20 margintop20">
-                        <div class="floatLeft fontsize4"><span v-if="!!token">关注主题</span><span v-else>推荐主题</span></div>
-                        <div class="floatRight marginright20"><span v-if="!!token">总数 : {{userInfo.concernTopicCount}}</span></div>
+                        <div class="floatLeft fontsize4"><span v-if="isLogin">关注主题</span><span v-else>推荐主题</span></div>
+                        <div class="floatRight marginright20"><span v-if="isLogin">总数 : {{userInfo.concernTopicCount}}</span></div>
                         <div style="clear:both;"></div>
                         <div class="margintop10">
                             <span class="topic" v-for="(item,index) in topics" :key="index" @click="enterTieba(item.topicName)">{{item.topicName}}</span>
@@ -78,7 +78,7 @@ export default {
             token:localStorage.getItem('user_token'),
             isLogin:localStorage.getItem('isLogin'),
             userInfo:{},
-            searInput:'',
+            searchInput:'',
             timeType:'天',
             hotKeyWord:[],
             options:[{
@@ -111,6 +111,13 @@ export default {
                     this.userInfo = res.data.param
                     this.userInfo.profilePic = this.$store.state.imgUrl+this.userInfo.profilePic
                     console.log('11',this.userInfo.profilePic)
+                }else if(res.data.retCode == 50004) {
+                    this.$message.warning('请重新登录')
+                    localStorage.removeItem('user_token');
+                    this.isLogin = false
+                    localStorage.removeItem('user_phone')
+                    localStorage.removeItem('userId')
+                    this.$router.push({ path:'/'})
                 }
             })
         },
@@ -139,11 +146,11 @@ export default {
             })
         },
         enterQs(){
-            if( this.searInput.trim() == ''){
+            if( this.searchInput.trim() == ''){
                 this.$message.warning('请输入搜索内容')
                 return;
             }else {
-                let routeData = this.$router.resolve({ path:'/tieba' ,query:{topic:this.searInput}})
+                let routeData = this.$router.resolve({ path:'/tieba' ,query:{topic:this.searchInput}})
                 window.open(routeData.href,'_blank');
             }
         },
@@ -151,13 +158,18 @@ export default {
                 let routeData = this.$router.resolve({ path:'/tieba' ,query:{topic:topicName}})
                 window.open(routeData.href,'_blank');
         },
+        searchHotkey(hotKey){
+            this.searchInput = hotKey
+            this.search()
+        },
         search(){
-            if(this.searInput.trim() == ''){
+            if(this.searchInput.trim() == ''){
                 this.$message.warning('请输入搜索内容')
                 return;
             }else {
-                let routeData = this.$router.resolve({ path:'/searchPage' ,query:{keyWord:this.searInput}})
+                let routeData = this.$router.resolve({ path:'/searchPage' ,query:{keyWord:this.searchInput}})
                 window.open(routeData.href,'_blank');
+                this.searchInput = ''
             }
         },
         handleCommand(command){

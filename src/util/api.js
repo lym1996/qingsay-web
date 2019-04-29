@@ -62,6 +62,8 @@ const list = (token) => get('/article/listArticleFolder?token='+token)
 const uploadArticlePic = (p) => commonPostBody('/img/uploadArticlePic', p)
 //上传评论图片
 const uploadCommentPic = (p) => commonPostBody('/img/uploadArticleCommentPic',p)
+//上传用户头像
+const uploadUserPic = (p) => commonPostBody('/img/uploadUserProfilePic',p)
 //上传主题头像
 const uploadTopicPic = (p) => commonPostBody('/img/uploadTopicProfilePic',p)
 //获取图形验证码
@@ -135,22 +137,51 @@ const comment = (param) => post('/comment/saveComment',param)
 //删除评论
 const deleteComments = (param) => post('/comment/removeComment',param)
 //获取收藏夹
-const listFold = (token) => get('/collection/listFolder?token='+token)
+const listFold = (uqsId) => get('/collection/listFolder?uqsId='+uqsId)
 //新建收藏夹
 const addNewFold = (param) => post('/collection/saveFolder',param)
+//删除收藏夹
+const deleteFold = (param) => post('/collection/removeFolder',param)
 //添加收藏
 const collect = (param) => post('/collection/saveCollection',param)
 //罗列收藏
-const collectionList = (folderId,token) => get('/collection/listFolderCollection?folderId='+folderId+'&token='+token)
+const collectionList = (folderId,pageNum,pageSize) => get('/collection/listFolderCollection?folderId='+folderId+'&pageNum='+pageNum+'&pageSize='+pageSize)
 //根据文章标题或作者搜索
 const searchByTitle = (titleOrAuthor,pageNum,pageSize,token) => get('/search/articleOrderByHot?titleOrAuthor='+titleOrAuthor+'&pageNum='+pageNum+'&pageSize='+pageSize+'&token='+token)
 //根据用户昵称和id搜索
 const searchByuser = (nikeNameOrUId,pageNum,pageSize,token) => get('/search/user?nikeNameOrUId='+nikeNameOrUId+'&pageNum='+pageNum+'&pageSize='+pageSize+'&token='+token)
+//更新用户信息
+const updateUserInfo = (param) => post('/user/updateUserInfo',param)
+//根据uqsId获取所有文集
+const getFolderListByUqs = (uqsId) => get('/article/listArticleFolderByUqsId?uqsId='+uqsId)
+//根据uqsId获取文章
+const getArticleByUqs = (folderId,uqsId,pageNum,pageSize) => get('/article/listArticleByFolderId?folderId='+folderId+'&uqsId='+uqsId+'&pageNum='+pageNum+'&pageSize='+pageSize)
+//获取游客信息
+const getUsercustomInfo = (param) => post('/user/getUserBusinessInfo',param)
+//获取收到的消息
+const readReceiveMsg = (param) => post('/msg/readReceiveMsg',param)
+//获取发送的私信
+const readsendMsg = (param) => post('/msg/readSendMsg',param)
+//获取关注用户
+const getConcernUser = (pageNum,pageSize,token) => get('/concern/listConcernUser?pageNum='+pageNum+'&pageSize='+pageSize+'&token='+token)
+//获取粉丝
+const getFans = (pageNum,pageSize,token) => get('/concern/listFans?pageNum='+pageNum+'&pageSize='+pageSize+'&token='+token)
+//吧主审核
+const bazhuReview = (param) => post('/article/throughExamination',param)
+//管理员审核
+const adminReview = (param) => post('/article/throughTowExamination',param)
+//发送私信
+const sendMsg = (param) => post('/msg/sendMsg',param)
+//一键已读消息
+const msgRead = (param) => post('/msg/allMsgHasRead',param)
 //暴露接口
 export default {
     baseURL,
+    bazhuReview,
+    adminReview,
     uploadArticlePic,
     uploadTopicPic,
+    uploadUserPic,
     getImgUrl,
     getMsgCode,
     registration,
@@ -192,5 +223,16 @@ export default {
     getOnecomments,
     searchByTitle,
     searchByuser,
-    collectionList
+    collectionList,
+    updateUserInfo,
+    getFolderListByUqs,
+    getArticleByUqs,
+    getUsercustomInfo,
+    readReceiveMsg,
+    readsendMsg,
+    deleteFold,
+    getConcernUser,
+    getFans,
+    sendMsg,
+    msgRead
 }
