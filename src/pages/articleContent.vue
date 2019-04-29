@@ -357,8 +357,7 @@ export default {
                     this.articleInfo.profilePic = this.$store.state.imgUrl + this.articleInfo.profilePic
                     console.log(this.articleInfo.profilePic)
                 }else if(res.data.retCode == 50012 ) {
-                    let routeData = this.$router.resolve({ path:'/315' ,})
-                        window.open(routeData.href,'_blank');
+                    this.$router.push({ path:'/315' })
                 }
                 else {
                     this.$router.push({ path:'/305' })
