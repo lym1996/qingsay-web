@@ -160,13 +160,16 @@ export default {
                 console.log('3333')
                 localStorage.setItem('user_token',this.$route.query.token)
                 console.log(this.$route.query.token)
+                this.token = localStorage.getItem('user_token');
                 localStorage.setItem('userId',this.$route.query.userId)
+                this.userId = localStorage.getItem('userId')
                 localStorage.setItem('isLogin', true)
+                this.isLogin = localStorage.getItem('isLogin');
             }
         }
     },
     mounted() {
-        console.log('token',this.token)
+        console.log('token',localStorage.getItem('user_token'))
         console.log('isLogin',this.isLogin)
         this.getUserInfo()
         this.getMessage()

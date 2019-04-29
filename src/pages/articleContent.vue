@@ -279,9 +279,15 @@ export default {
     },
     created() {
         if(this.$route.query.from == 'admin'){
-            if(this.token && this.token != this.$route.query.token){
+            if(!this.token || this.token != this.$route.query.token){
+                console.log('3333')
                 localStorage.setItem('user_token',this.$route.query.token)
+                console.log(this.$route.query.token)
+                this.token = localStorage.getItem('user_token');
                 localStorage.setItem('userId',this.$route.query.userId)
+                this.userId = localStorage.getItem('userId')
+                localStorage.setItem('isLogin', true)
+                this.isLogin = localStorage.getItem('isLogin');
             }
         }
     },
